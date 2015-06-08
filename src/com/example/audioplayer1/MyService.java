@@ -1,11 +1,15 @@
 package com.example.audioplayer1;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Random;
 
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.media.MediaPlayer.OnPreparedListener;
+import android.os.Binder;
 import android.os.Environment;
 import android.os.IBinder;
 import android.widget.Toast;
@@ -14,6 +18,17 @@ public class MyService extends Service {
 	MediaPlayer mMediaPlayer;
 	String mMp3Path = "";
 	String path = null;
+	
+	private final IBinder mBinder = new LocalBinder();
+	private final Random mGenerator = new Random();
+	
+
+	public class LocalBinder extends Binder{
+		MyService getService(){
+			return MyService.this;
+		}
+	}
+
 
 	@Override
 	public void onCreate() {
@@ -34,41 +49,40 @@ public class MyService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Toast.makeText(this, "service start..", Toast.LENGTH_SHORT).show();
-		// sdcard�� �ִ� test.mp3 �� ã�ư˻�
+		// sdcard�� �ִ� tears.mp3 �� ã�ư˻�
 		path = intent.getStringExtra("path");
 		
-		/*
-		String ext = Environment.getExternalStorageState();
-		if (ext.equals(Environment.MEDIA_MOUNTED)) {
-			mMp3Path = Environment.getExternalStorageDirectory()
-					.getAbsolutePath() + "/tears.mp3";
-			File mp3file = new File(mMp3Path);
-			if (mp3file.exists()) {
-				// mp3������ ������ ���������
-				new Thread(mRun).start();
-			}
-		}
-		*/
 		if(path!= null){
-			new Thread(mRun).start();
-		}
-		
-		return START_STICKY;
-	}
-
-	Runnable mRun = new Runnable() {
-		public void run() {
 			try {
-				// �̵���÷��̾� ���
-				//mMediaPlayer.setDataSource(mMp3Path);
 				mMediaPlayer.setDataSource(path);
 				mMediaPlayer.prepare();
-				mMediaPlayer.start();
-			} catch (Exception e) {
+			} catch (IllegalArgumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
+			mMediaPlayer.setOnPreparedListener(new OnPreparedListener() {
+				
+				@Override
+				public void onPrepared(MediaPlayer mp) {
+					// TODO Auto-generated method stub
+					mMediaPlayer.start();
+					
+				}
+			});
+
 		}
-	};
+		return START_STICKY;
+	}
 
 	@Override
 	public void onDestroy() {
@@ -82,7 +96,21 @@ public class MyService extends Service {
 	}
 
 	@Override
-	public IBinder onBind(Intent arg0) {
-		return null;
+	public IBinder onBind(Intent intent) {
+		return mBinder;
 	}
+	
+	
+	public int getRandomNumber(){
+		return mGenerator.nextInt(100);
+	}
+	
+	public void setMusicForward(){
+		mMediaPlayer.seekTo(mMediaPlayer.getCurrentPosition() + 2000);
+	}
+	
+	public void setMusicRewind(){
+		mMediaPlayer.seekTo(mMediaPlayer.getCurrentPosition() - 2000);
+	}
+	
 }

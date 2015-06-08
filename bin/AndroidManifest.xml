@@ -8,15 +8,11 @@
         android:minSdkVersion="19"
         android:targetSdkVersion="19" />
 
-    	<uses-permission android:name="android.permission.INTERNET" />
-
-    	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>    
-    	<uses-permission android:name="android.permission.READ_INTERNAL_STORAGE"/>
-    	
-    	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    	<uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE"/>
-    
-    
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -32,10 +28,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:enabled="true" android:name=".MyService">
-           		<action android:name="com.example.audioplayer1">
-      		</action>
-		</service>
+
+        <service
+            android:name=".MyService"
+            android:enabled="true" >
+            <action android:name="com.example.audioplayer1" >
+            </action>
+        </service>
     </application>
 
 </manifest>

@@ -86,7 +86,8 @@ public final class R {
         public static final int List=0x7f060020;
         public static final int ListView_LinearLayout=0x7f060022;
         public static final int List_LinearLayout=0x7f060023;
-        public static final int PhoneVideoList=0x7f060021;
+        public static final int PhoneAideoList=0x7f060021;
+        public static final int PhoneVideoList=0x7f060028;
         public static final int RelativeLayout1=0x7f060002;
         public static final int RelativeLayout2=0x7f060017;
         public static final int RelativeLayout5=0x7f060019;
