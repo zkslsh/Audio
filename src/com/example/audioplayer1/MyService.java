@@ -13,13 +13,14 @@ import android.widget.Toast;
 public class MyService extends Service {
 	MediaPlayer mMediaPlayer;
 	String mMp3Path = "";
+	String path = null;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		// ¹Ìµð¾îÇÃ·¹ÀÌ¾î¸¦ ÃÊ±âÈ­
+		// ï¿½Ìµï¿½ï¿½ï¿½Ã·ï¿½ï¿½Ì¾î¸¦ ï¿½Ê±ï¿½È­
 		mMediaPlayer = new MediaPlayer();
-		// °î Àç»ýÀÌ ¿Ï·áÇÏ¸é ¼­ºñ½º¸¦ Á¾·á½ÃÅ²´Ù
+		// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ñ½º¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Å²ï¿½ï¿½
 		mMediaPlayer.setOnCompletionListener(new OnCompletionListener() {
 
 			@Override
@@ -33,25 +34,34 @@ public class MyService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Toast.makeText(this, "service start..", Toast.LENGTH_SHORT).show();
-		// sdcard¿¡ ÀÖ´Â test.mp3 À» Ã£¾Æ°Ë»ç
+		// sdcardï¿½ï¿½ ï¿½Ö´ï¿½ test.mp3 ï¿½ï¿½ Ã£ï¿½Æ°Ë»ï¿½
+		path = intent.getStringExtra("path");
+		
+		/*
 		String ext = Environment.getExternalStorageState();
 		if (ext.equals(Environment.MEDIA_MOUNTED)) {
 			mMp3Path = Environment.getExternalStorageDirectory()
 					.getAbsolutePath() + "/tears.mp3";
 			File mp3file = new File(mMp3Path);
 			if (mp3file.exists()) {
-				// mp3ÆÄÀÏÀÌ ÀÖÀ¸¸é ¾²·¹µå½ÇÇà
+				// mp3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				new Thread(mRun).start();
 			}
 		}
+		*/
+		if(path!= null){
+			new Thread(mRun).start();
+		}
+		
 		return START_STICKY;
 	}
 
 	Runnable mRun = new Runnable() {
 		public void run() {
 			try {
-				// ¹Ìµð¾îÇÃ·¹ÀÌ¾î Àç»ý
-				mMediaPlayer.setDataSource(mMp3Path);
+				// ï¿½Ìµï¿½ï¿½ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ ï¿½ï¿½ï¿½
+				//mMediaPlayer.setDataSource(mMp3Path);
+				mMediaPlayer.setDataSource(path);
 				mMediaPlayer.prepare();
 				mMediaPlayer.start();
 			} catch (Exception e) {

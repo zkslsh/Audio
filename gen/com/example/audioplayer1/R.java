@@ -83,24 +83,35 @@ public final class R {
         public static final int LinearLayout7=0x7f060009;
         public static final int LinearLayout8=0x7f06000a;
         public static final int LinearLayout9=0x7f06000c;
+        public static final int List=0x7f060020;
+        public static final int ListView_LinearLayout=0x7f060022;
+        public static final int List_LinearLayout=0x7f060023;
+        public static final int PhoneVideoList=0x7f060021;
         public static final int RelativeLayout1=0x7f060002;
         public static final int RelativeLayout2=0x7f060017;
-        public static final int RelativeLayout5=0x7f060018;
-        public static final int RelativeLayout7=0x7f06001d;
+        public static final int RelativeLayout5=0x7f060019;
+        public static final int RelativeLayout7=0x7f06001e;
+        public static final int Right_Container=0x7f060018;
         public static final int back=0x7f060007;
-        public static final int ff=0x7f06001b;
+        public static final int ff=0x7f06001c;
         public static final int filename=0x7f060012;
         public static final int function=0x7f060010;
         public static final int home=0x7f06000b;
-        public static final int list=0x7f06001c;
+        public static final int imgIcon=0x7f060024;
+        public static final int list=0x7f06001d;
         public static final int menu=0x7f06000d;
-        public static final int play=0x7f060019;
-        public static final int progress=0x7f06001e;
-        public static final int rw=0x7f06001a;
+        public static final int play=0x7f06001a;
+        public static final int progress=0x7f06001f;
+        public static final int runningTime=0x7f060026;
+        public static final int rw=0x7f06001b;
         public static final int setting=0x7f060015;
+        public static final int txtSize=0x7f060027;
+        public static final int txtTitle=0x7f060025;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
+        public static final int listitem=0x7f030001;
+        public static final int main=0x7f030002;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
