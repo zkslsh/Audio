@@ -1,5 +1,7 @@
 package com.example.audioplayer1;
 
+import java.lang.reflect.GenericSignatureFormatError;
+
 import com.example.audioplayer1.MyService.LocalBinder;
 
 import android.media.MediaPlayer.OnCompletionListener;
@@ -7,6 +9,7 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.media.MediaPlayer.OnSeekCompleteListener;
 import android.app.Activity;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -20,6 +23,7 @@ import android.widget.MediaController;
 import android.widget.Button;
 import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -65,6 +69,12 @@ public class MainActivity extends Activity implements OnClickListener {
     private MyService mService;
     boolean mBound = false;
     private ServiceConnection mConnection; 
+    private TextView artist_View;
+    private TextView album_View;
+    private TextView year_View;
+    private TextView filesize_View;
+    private TextView position_View;
+    private ImageView image_View;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +104,13 @@ public class MainActivity extends Activity implements OnClickListener {
 		List = (LinearLayout) findViewById(R.id.List);
 		LinearLayout = (LinearLayout) findViewById(R.id.Right_Container);
 		list_Button = (Button) findViewById(R.id.list);
+		
+		artist_View = (TextView)findViewById(R.id.Artist_View);
+		album_View = (TextView)findViewById(R.id.Album_View);
+		year_View = (TextView)findViewById(R.id.Year_View);
+		filesize_View = (TextView)findViewById(R.id.Filesize_View);
+		position_View = (TextView)findViewById(R.id.Position_View);
+		image_View = (ImageView)findViewById(R.id.Image_View);
 
 		service_start.setOnClickListener(this);
 		service_end.setOnClickListener(this);
@@ -154,7 +171,13 @@ public class MainActivity extends Activity implements OnClickListener {
 		String[] proj = { MediaStore.Audio.Media._ID,
 				MediaStore.Audio.Media.DATA,
 				MediaStore.Audio.Media.DISPLAY_NAME,
-				MediaStore.Audio.Media.SIZE, MediaStore.Audio.Media.DURATION };
+				MediaStore.Audio.Media.SIZE, 
+				MediaStore.Audio.Media.DURATION,
+				MediaStore.Audio.Media.ARTIST,
+				MediaStore.Audio.Media.ALBUM,
+				MediaStore.Audio.Media.YEAR,
+				MediaStore.Audio.Media.SIZE				
+				};
 		audiocursor = managedQuery(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
 				proj, null, null, null);
 		count = audiocursor.getCount();
@@ -170,7 +193,9 @@ public class MainActivity extends Activity implements OnClickListener {
 			System.gc();
 			audio_column_index = audiocursor
 					.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA);
+			position_View.setText(audiocursor.getString(audio_column_index));
 			audiocursor.moveToPosition(position);
+			
 
 			filename = audiocursor.getString(audio_column_index);
 			// audioview.setaudioPath(filename);
@@ -184,6 +209,20 @@ public class MainActivity extends Activity implements OnClickListener {
 			audio_column_index = audiocursor
 					.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION);
 			String iduration = audiocursor.getString(audio_column_index);
+			//audiocursor.moveToPosition(position);
+			
+			audio_column_index = audiocursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST);
+			//audiocursor.moveToPosition(position);
+			artist_View.setText(audiocursor.getString(audio_column_index));
+			
+			audio_column_index = audiocursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM);
+			//audiocursor.moveToPosition(position);
+			album_View.setText(audiocursor.getString(audio_column_index));
+			
+			audio_column_index = audiocursor.getColumnIndexOrThrow(MediaStore.Audio.Media.YEAR);
+			//audiocursor.moveToPosition(position);
+			year_View.setText(audiocursor.getString(audio_column_index));			
+			
 
 			long timeInmillisec = Long.parseLong(iduration);
 			long duration = timeInmillisec / 1000;
@@ -273,6 +312,10 @@ public class MainActivity extends Activity implements OnClickListener {
 				double dsize = lsize / 1000000;
 				String ssize = String.format("%4.1f", dsize);
 				holder.txtSize.setText(ssize + "Mb" + " | ");
+				
+				filesize_View.setText(ssize + "Mb");
+				
+				
 
 				// ListView
 				audio_column_index = audiocursor
@@ -298,7 +341,12 @@ public class MainActivity extends Activity implements OnClickListener {
 				String[] proj = { MediaStore.Audio.Media._ID,
 						MediaStore.Audio.Media.DISPLAY_NAME,
 						MediaStore.Audio.Media.DATA,
-						MediaStore.Audio.Media.DURATION };
+						MediaStore.Audio.Media.DURATION,
+						MediaStore.Audio.Media.ALBUM,
+						MediaStore.Audio.Media.ARTIST,
+						MediaStore.Audio.Media.YEAR,
+						MediaStore.Audio.Media.SIZE
+						};
 				@SuppressWarnings("deprecation")
 				Cursor cursor = managedQuery(
 						MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, proj,
@@ -307,6 +355,14 @@ public class MainActivity extends Activity implements OnClickListener {
 				cursor.moveToFirst();
 				long ids = cursor.getLong(cursor
 						.getColumnIndex(MediaStore.Audio.Media._ID));
+				
+				
+				//
+				long albumId = ids;
+				Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
+				Uri sAlbumArtUri = ContentUris.withAppendedId(sArtworkUri, albumId);
+				image_View.setImageURI(sAlbumArtUri);
+				//
 
 				ContentResolver crThumb = getContentResolver();
 				BitmapFactory.Options options = new BitmapFactory.Options();

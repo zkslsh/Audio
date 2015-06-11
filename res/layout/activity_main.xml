@@ -273,6 +273,7 @@
                         android:layout_weight="1.5" >
 
                         <ImageView
+                            android:id="@+id/Image_View"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                     </LinearLayout>
@@ -339,9 +340,10 @@
                                 android:layout_weight="1" >
 
                                 <TextView
+                                    android:id="@+id/Artist_View"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Artist"
+                                    android:text="Artist2"
                                     android:textColor="#FFFFFFFF"
                                     android:textSize="25sp" >
                                 </TextView>
@@ -374,9 +376,10 @@
                                 android:layout_weight="1" >
 
                                 <TextView
+                                    android:id="@+id/Album_View"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Album"
+                                    android:text="Album2"
                                     android:textColor="#FFFFFFFF"
                                     android:textSize="25sp" >
                                 </TextView>
@@ -409,9 +412,10 @@
                                 android:layout_weight="1" >
 
                                 <TextView
+                                    android:id="@+id/Year_View"                                 
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Gener"
+                                    android:text="Year2"
                                     android:textColor="#FFFFFFFF"
                                     android:textSize="25sp" >
                                 </TextView>
@@ -444,9 +448,10 @@
                                 android:layout_weight="1" >
 
                                 <TextView
+                                    android:id="@+id/Filesize_View"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="File Size"
+                                    android:text="File Size2"
                                     android:textColor="#FFFFFFFF"
                                     android:textSize="25sp" >
                                 </TextView>
@@ -479,9 +484,10 @@
                                 android:layout_weight="1" >
 
                                 <TextView
+                                    android:id="@+id/Position_View"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Position"
+                                    android:text="Position2"
                                     android:textColor="#FFFFFFFF"
                                     android:textSize="25sp" >
                                 </TextView>
